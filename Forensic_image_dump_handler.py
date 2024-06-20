@@ -1,13 +1,24 @@
 from flask import *
-
+import E01Processor
+import BinProcessor
 app = Flask(__name__)
 
 
 @app.route("/" ,methods=["GET","POST"])
-def recieve_dump():
+def receive_dump():
     if request.method == "POST":
         data = request.get_json()
-        print(data)
+        analyzer = None
+        extension = data["extension"]
+        if extension == "E01":
+            analyzer = E01Processor(data["data"])
+        else:
+            # Add more extensions here
+            analyzer = BinProcessor(data["data"])
+        analyzer.setupDump()
+        analyzer.startAnalysis()
+        analyzer.cleanUp()
+        
         return "Successful",200
     return "not Handled request", 400
 
