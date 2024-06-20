@@ -1,0 +1,58 @@
+/* Navigation.css */
+
+/* Body background color */
+.bg-body-tertiary {
+    background-color: #F0EBE3; /* Lightest color */
+}
+
+/* Navbar background color */
+.navbar-light {
+    background-color: #7D9D9C; /* Third color */
+}
+
+/* Navbar brand and links color */
+.navbar-light .navbar-brand,
+.navbar-light .navbar-nav .nav-link {
+    color: #F0EBE3; /* Lightest color */
+}
+
+/* Navbar brand and links hover color */
+.navbar-light .navbar-brand:hover,
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #E4DCCF; /* Second color */
+}
+
+/* Navbar toggle button color */
+.navbar-light .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%23F0EBE3' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Navbar brand active color */
+.navbar-light .navbar-brand.active,
+.navbar-light .navbar-brand:active,
+.navbar-light .navbar-brand.disabled,
+.navbar-light .navbar-brand:focus,
+.navbar-light .navbar-brand:hover {
+    color: #E4DCCF; /* Second color */
+}
+
+/* Navbar dropdown item color */
+.navbar-light .navbar-nav .dropdown-menu .dropdown-item {
+    color: #F0EBE3; /* Lightest color */
+}
+
+/* Navbar dropdown item hover color */
+.navbar-light .navbar-nav .dropdown-menu .dropdown-item:hover {
+    background-color: #576F72; /* Darkest color */
+    color: #F0EBE3; /* Lightest color */
+}
+
+/* Navbar dropdown divider color */
+.navbar-light .navbar-nav .dropdown-divider {
+    border-top-color: #F0EBE3; /* Lightest color */
+}
+
+/* Navbar dropdown menu background color */
+.navbar-light .navbar-nav .dropdown-menu {
+    background-color: #576F72; /* Darkest color */
+}

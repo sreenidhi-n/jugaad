@@ -1,0 +1,35 @@
+/* Updated Navigation.css */
+
+/* Base styles for drop-zone */
+.drop-zone {
+  border: 2px dashed #7D9D9C; /* Changed border color to green (#7D9D9C) */
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  background-color: #7D9D9C; /* Lightest color */
+}
+
+/* Styles for drop-zone when dragging */
+.drop-zone.dragging {
+  background-color: #eeeeee;
+  border-color: #7D9D9C; /* Green color */
+}
+
+/* Margin for file-list */
+.file-list {
+  margin-top: 20px;
+}
+
+/* Message style with green color */
+.message {
+  margin-top: 20px;
+  color: #7D9D9C; /* Green color */
+}
+
+/* Hover state for drop-zone */
+.drop-zone:hover {
+  background-color: #576F72; /* Second color */
+  color:#FFFFFF;
+}
