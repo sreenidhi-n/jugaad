@@ -2,13 +2,18 @@
 
 /* Base styles for drop-zone */
 .drop-zone {
-  border: 2px dashed #7D9D9C; /* Changed border color to green (#7D9D9C) */
-  border-radius: 4px;
-  padding: 20px;
+  /* border: 2px dashed #7D9D9C; Changed border color to green (#7D9D9C) */
+  border-radius: 40px;
+  padding-inline: .5%;
+  padding-top: 1%;
+  padding-bottom: 1%;
   text-align: center;
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s;
   background-color: #7D9D9C; /* Lightest color */
+  margin-top: 2%;
+  width: auto;
+  margin-inline: 3%;
 }
 
 /* Styles for drop-zone when dragging */
@@ -32,4 +37,14 @@
 .drop-zone:hover {
   background-color: #576F72; /* Second color */
   color:#FFFFFF;
+}
+#contents{
+  border: #eeeeee;
+  border-style: dashed;
+  width:auto;
+  margin-top: 2%;
+  margin-inline: 3%;
+  padding: 8%;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.3)
 }

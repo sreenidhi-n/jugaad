@@ -56,3 +56,15 @@
 .navbar-light .navbar-nav .dropdown-menu {
     background-color: #576F72; /* Darkest color */
 }
+
+#nav_div
+{
+    background-color: #7D9D9C;
+    color: #FFFFFF;
+    padding: 1%;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-inline: 5%;
+    margin-top: 1%;
+    width: auto;
+  };

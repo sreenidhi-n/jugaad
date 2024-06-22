@@ -2,18 +2,13 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import "./Navigation.css"
 
 function Navigation() {
-  const divStyle = {
-    backgroundColor: '#7D9D9C',  // Background color
-    color: '#FFFFFF',            // Text color
-    padding: '20px',             // Padding
-    borderRadius: '8px',         // Border radius
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'  // Box shadow
-  };
+  
   return (
-    <div style={divStyle}>
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <div id = "nav_div">
+    <Navbar expand="lg" >
       <Container>
         <Navbar.Brand href="#home">jugaad.</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
