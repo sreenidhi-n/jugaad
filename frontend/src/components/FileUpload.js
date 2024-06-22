@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import "./FileUpload.css";
 import Image from "./Image";
+
 const FileUpload = () => {
 	const [files, setFiles] = useState([]);
 	const [message, setMessage] = useState("");
@@ -25,18 +26,27 @@ const FileUpload = () => {
 		dropRef.current.classList.remove("dragging");
 
 		const droppedFiles = Array.from(event.dataTransfer.files);
+		console.log("Dropped files:", droppedFiles); // Log dropped files
 		handleFiles(droppedFiles);
 	};
 
 	const handleFileChange = (event) => {
 		const selectedFiles = Array.from(event.target.files);
+		console.log("Selected files:", selectedFiles); // Log selected files
 		handleFiles(selectedFiles);
 	};
 
 	const handleFiles = (fileList) => {
-		const e01Files = fileList.filter((file) => file.name.endsWith(".E01"));
-		setFiles((prevFiles) => [...prevFiles, ...e01Files]);
-		readAndSendFiles(e01Files);
+		const supportedExtensions = Array.from({ length: 100 }, (_, i) => {
+			const num = (i + 1).toString().padStart(2, "0");
+			return `.E${num}`;
+		});
+		const filteredFiles = fileList.filter((file) =>
+			supportedExtensions.some((ext) => file.name.endsWith(ext))
+		);
+		console.log("Filtered files:", filteredFiles); // Log filtered files
+		setFiles((prevFiles) => [...prevFiles, ...filteredFiles]);
+		readAndSendFiles(filteredFiles);
 	};
 
 	const readAndSendFiles = (files) => {
@@ -56,16 +66,15 @@ const FileUpload = () => {
 
 		Promise.all(readers)
 			.then((results) => {
-				results.forEach((file) => {
-					sendFileToServer(file);
-				});
+				console.log("Files ready to be sent:", results); // Log files ready to be sent
+				sendFilesToServer(results); // Send all files at once
 			})
 			.catch((error) => console.error("Error reading files:", error));
 	};
 
-	const sendFileToServer = (file) => {
+	const sendFilesToServer = (files) => {
 		axios
-			.post("http://localhost:5000/upload", file)
+			.post("http://localhost:5000/upload", { files })
 			.then((response) => {
 				setMessage(response.data.message);
 			})
@@ -92,12 +101,11 @@ const FileUpload = () => {
 			>
 				<div id="contents">
 					<Image />
-					<h5>Drag & drop .E01 files here, or click to select files</h5>
+					<h5>Drag & drop .E01 - .E100 files here, or click to select files</h5>
 					<input
 						type="file"
 						onChange={handleFileChange}
 						multiple
-						// accept=".E01"
 					/>
 				</div>
 				<div className="file-list">
