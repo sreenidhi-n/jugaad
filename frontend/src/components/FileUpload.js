@@ -7,6 +7,8 @@ const FileUpload = () => {
 	const [files, setFiles] = useState([]);
 	const [message, setMessage] = useState("");
 	const dropRef = useRef(null);
+	const [presence, setPresence] = useState(false)
+	const [result, setResult] = useState()
 
 	const handleDragOver = (event) => {
 		event.preventDefault();
@@ -45,7 +47,7 @@ const FileUpload = () => {
 			supportedExtensions.some((ext) => file.name.endsWith(ext))
 		);
 		console.log("Filtered files:", filteredFiles); // Log filtered files
-		setFiles((prevFiles) => [...prevFiles, ...filteredFiles]);
+		setFiles(filteredFiles);
 		readAndSendFiles(filteredFiles);
 	};
 
@@ -57,6 +59,7 @@ const FileUpload = () => {
 					resolve({
 						name: file.name,
 						content: reader.result.split(",")[1], // Extract base64 content from data URL
+						extension: "E01",
 					});
 				};
 				reader.onerror = reject;
@@ -67,14 +70,17 @@ const FileUpload = () => {
 		Promise.all(readers)
 			.then((results) => {
 				console.log("Files ready to be sent:", results); // Log files ready to be sent
-				sendFilesToServer(results); // Send all files at once
+				// sendFilesToServer(results); // Send all files at once
+				setResult(results)
+				setPresence(true)
 			})
 			.catch((error) => console.error("Error reading files:", error));
 	};
 
-	const sendFilesToServer = (files) => {
+	const sendFilesToServer = (event) => {
+		console.log("data that will be sent ");
 		axios
-			.post("http://localhost:5000/upload", { files })
+			.post("http://localhost:5000/", { result })
 			.then((response) => {
 				setMessage(response.data.message);
 			})
@@ -102,15 +108,17 @@ const FileUpload = () => {
 				<div id="contents">
 					<Image />
 					<h5>Drag & drop .E01 - .E100 files here, or click to select files</h5>
-					<input
-						type="file"
-						onChange={handleFileChange}
-						multiple
-					/>
+					<input type="file" onChange={handleFileChange} multiple hidden={presence} />
+					<center id="submit_button">
+						<button type="submit" className="btn btn-primary" disabled={!presence} onClick={sendFilesToServer}>
+							Submit
+						</button>
+					</center>
 				</div>
+
 				<div className="file-list">
 					{files.map((file, index) => (
-						<div key={index}>{file.name}</div>
+						<p key={index}>{file.name}</p>
 					))}
 				</div>
 			</div>
