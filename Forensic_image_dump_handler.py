@@ -15,9 +15,9 @@ def receive_dump():
         else:
             # Add more extensions here
             analyzer = BinProcessor(data["data"])
-        analyzer.setupDump()
-        analyzer.startAnalysis()
-        analyzer.cleanUp()
+        # analyzer.setupDump()
+        # analyzer.startAnalysis()
+        # analyzer.cleanUp()
         
         return "Successful",200
     return "not Handled request", 400

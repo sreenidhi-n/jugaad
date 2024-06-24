@@ -2,7 +2,7 @@ from abc import *
 
 class ExtractFrameWork(ABC):
     @abstractclassmethod
-    def setupDump(self,dump):
+    def setupDump(self):
         pass
     @abstractclassmethod
     def startAnalysis():
