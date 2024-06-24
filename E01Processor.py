@@ -1,5 +1,6 @@
 import  AbstractExtract
 from os import *
+from base64 import *
 
 class E01Processor(AbstractExtract.ExtractFrameWork):
     # _protected 
@@ -16,8 +17,14 @@ class E01Processor(AbstractExtract.ExtractFrameWork):
         system(f"mkdir Playground")
         system(f"cp scalpel.conf Playground/")
         chdir(f"Playground")
+        for i in self.__dump:
+            name = i["name"]
+            data = i["content"]
+            with open(name,"wb") as f:
+                f.write(b64decode(data))
         system(f"mkdir {self.__mountPoint}")
-        system(f"ewfmount {self.__dump} {self.__mountPoint}")
+        self.__dump.sort(lambda x: x["name"])
+        system(f"ewfmount {self.__dump[0]["name"]} {self.__mountPoint}")
         
         
 
