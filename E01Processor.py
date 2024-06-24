@@ -24,7 +24,7 @@ class E01Processor(AbstractExtract.ExtractFrameWork):
                 f.write(b64decode(data))
         system(f"mkdir {self.__mountPoint}")
         self.__dump.sort(lambda x: x["name"])
-        system(f"ewfmount {self.__dump[0]["name"]} {self.__mountPoint}")
+        system(f"ewfmount { self.__dump[0]['name'] } {self.__mountPoint}")
         
         
 
