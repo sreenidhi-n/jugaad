@@ -104,23 +104,32 @@ const FileUpload = () => {
 			});
 	};
 
-	useEffect(() => {
-		const socket = socketIOClient("https://servercid.run-us-west2.goorm.site", {
-			transports: ["websocket"],
-		});
-		socket.on("connect", () => {
-			console.log("Connected to server");
-		});
+	const socket = socketIOClient("https://servercid.run-us-west2.goorm.site", {
+		transports: ["websocket"],
+	});
 
-		socket.on("file_processed", (data) => {
-			console.log("Received file_processed event:", data);
-			const { message, files } = data;
-		});
+	socket.on("connect", () => {
+		console.log("Connected to server");
+	});
 
-		return () => {
-			socket.disconnect();
-		};
-	}, []);
+	socket.on("file_processed", (data) => {
+		console.log("Received file_processed event:", data);
+		const { message, files } = data;
+		// Process received data as needed
+	});
+
+	socket.on("connect_error", (error) => {
+		console.error("WebSocket connection error:", error);
+	});
+
+	socket.on("disconnect", () => {
+		console.log("Disconnected from server");
+	});
+
+	return () => {
+		socket.disconnect();
+	};
+
 
 
 	return (
