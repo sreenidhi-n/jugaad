@@ -80,7 +80,7 @@ const FileUpload = () => {
 	const sendFilesToServer = (event) => {
 		console.log("data that will be sent ");
 		axios
-			.post("http://localhost:5000/", { result })
+			.post("https://servercid.run-us-west2.goorm.site/", { result })
 			.then((response) => {
 				setMessage(response.data.message);
 			})
