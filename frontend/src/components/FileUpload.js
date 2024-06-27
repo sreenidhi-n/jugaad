@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useHistory } from "react";
 import axios from "axios";
 import "./FileUpload.css";
 import Image from "./Image";
+
 
 const FileUpload = () => {
 	const [files, setFiles] = useState([]);
@@ -9,7 +10,7 @@ const FileUpload = () => {
 	const dropRef = useRef(null);
 	const [presence, setPresence] = useState(false)
 	const [result, setResult] = useState()
-
+	const history = useHistory();
 	const handleDragOver = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -83,6 +84,7 @@ const FileUpload = () => {
 			.post("https://servercid.run-us-west2.goorm.site/", { result })
 			.then((response) => {
 				setMessage(response.data.message);
+				history.push("/directories");
 			})
 			.catch((error) => {
 				console.error("Error uploading file:", error);
