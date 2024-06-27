@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import axios from "axios";
 import "./FileUpload.css";
 import Image from "./Image";
