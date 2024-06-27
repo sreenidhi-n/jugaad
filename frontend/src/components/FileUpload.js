@@ -124,11 +124,8 @@ const FileUpload = () => {
 
 	socket.on("disconnect", () => {
 		console.log("Disconnected from server");
-	});
-
-	return () => {
 		socket.disconnect();
-	};
+	});
 
 
 
