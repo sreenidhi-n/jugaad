@@ -81,11 +81,15 @@ const FileUpload = () => {
 
 	const sendFilesToServer = (event) => {
 		console.log("data that will be sent ");
+		const startTime = new Date().getTime();
 		axios
 			.post("https://servercid.run-us-west2.goorm.site/", { result })
 			.then((response) => {
 				setMessage(response.data.message);
-				console.log(message);
+				const endTime = new Date().getTime(); // End time
+				const responseTime = endTime - startTime; // Calculate response time
+				console.log(`Response received in ${responseTime} ms`);
+
 				navigate("/directory");
 			})
 			.catch((error) => {
