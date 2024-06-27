@@ -88,6 +88,7 @@ const FileUpload = () => {
 				setMessage(response.data.message);
 				const endTime = new Date().getTime(); // End time
 				const responseTime = endTime - startTime; // Calculate response time
+				
 				console.log(`Response received in ${responseTime} ms`);
 				navigate("/directory");
 			})
@@ -104,23 +105,21 @@ const FileUpload = () => {
 	};
 
 	useEffect(() => {
-		const socket = socketIOClient("https://servercid.run-us-west2.goorm.site"); // Replace with your Flask server URL
-
+		const socket = socketIOClient("https://servercid.run-us-west2.goorm.site");
 		socket.on("connect", () => {
 			console.log("Connected to server");
 		});
 
 		socket.on("file_processed", (data) => {
 			console.log("Received file_processed event:", data);
-			// Process the received data here
 			const { message, files } = data;
-			// Update your component's state or perform other actions
 		});
 
 		return () => {
 			socket.disconnect();
 		};
 	}, []);
+
 
 	return (
 		<div>
