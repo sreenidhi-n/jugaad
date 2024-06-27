@@ -1,18 +1,18 @@
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "./FileUpload.css";
 import Image from "./Image";
 import { useNavigate } from "react-router-dom";
 import socketIOClient from "socket.io-client";
 
-
 const FileUpload = () => {
 	const [files, setFiles] = useState([]);
 	const [message, setMessage] = useState("");
 	const dropRef = useRef(null);
-	const [presence, setPresence] = useState(false)
-	const [result, setResult] = useState()
+	const [presence, setPresence] = useState(false);
+	const [result, setResult] = useState([]);
 	const navigate = useNavigate();
+
 	const handleDragOver = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -73,15 +73,14 @@ const FileUpload = () => {
 		Promise.all(readers)
 			.then((results) => {
 				console.log("Files ready to be sent:", results); // Log files ready to be sent
-				// sendFilesToServer(results); // Send all files at once
-				setResult(results)
-				setPresence(true)
+				setResult(results);
+				setPresence(true);
 			})
 			.catch((error) => console.error("Error reading files:", error));
 	};
 
-	const sendFilesToServer = (event) => {
-		console.log("data that will be sent ");
+	const sendFilesToServer = () => {
+		console.log("Data that will be sent:", result);
 		const startTime = new Date().getTime();
 		axios
 			.post("https://servercid.run-us-west2.goorm.site/", { result })
@@ -90,27 +89,7 @@ const FileUpload = () => {
 				const endTime = new Date().getTime(); // End time
 				const responseTime = endTime - startTime; // Calculate response time
 				console.log(`Response received in ${responseTime} ms`);
-
-				useEffect(() => {
-					const socket = socketIOClient(
-						"https://servercid.run-us-west2.goorm.site"
-					); // Replace with your Flask server URL
-
-					socket.on("connect", () => {
-						console.log("Connected to server");
-					});
-
-					socket.on("file_processed", (data) => {
-						console.log("Received file_processed event:", data);
-						// Process the received data here
-						const { message, files } = data;
-						// Update your component's state or perform other actions
-					});
-
-					return () => {
-						socket.disconnect();
-					};
-				}, []);
+				navigate("/directory");
 			})
 			.catch((error) => {
 				console.error("Error uploading file:", error);
@@ -124,6 +103,25 @@ const FileUpload = () => {
 			});
 	};
 
+	useEffect(() => {
+		const socket = socketIOClient("https://servercid.run-us-west2.goorm.site"); // Replace with your Flask server URL
+
+		socket.on("connect", () => {
+			console.log("Connected to server");
+		});
+
+		socket.on("file_processed", (data) => {
+			console.log("Received file_processed event:", data);
+			// Process the received data here
+			const { message, files } = data;
+			// Update your component's state or perform other actions
+		});
+
+		return () => {
+			socket.disconnect();
+		};
+	}, []);
+
 	return (
 		<div>
 			<div
@@ -136,9 +134,19 @@ const FileUpload = () => {
 				<div id="contents">
 					<Image />
 					<h5>Drag & drop .E01 - .E100 files here, or click to select files</h5>
-					<input type="file" onChange={handleFileChange} multiple hidden={presence} />
+					<input
+						type="file"
+						onChange={handleFileChange}
+						multiple
+						hidden={presence}
+					/>
 					<center id="submit_button">
-						<button type="submit" className="btn btn-primary" disabled={!presence} onClick={sendFilesToServer}>
+						<button
+							type="submit"
+							className="btn btn-primary"
+							disabled={!presence}
+							onClick={sendFilesToServer}
+						>
 							Submit
 						</button>
 					</center>
