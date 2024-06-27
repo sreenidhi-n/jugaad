@@ -3,6 +3,7 @@ import axios from "axios";
 import "./FileUpload.css";
 import Image from "./Image";
 import { useNavigate } from "react-router-dom";
+import socketIOClient from "socket.io-client";
 
 
 const FileUpload = () => {
@@ -82,6 +83,7 @@ const FileUpload = () => {
 	const sendFilesToServer = (event) => {
 		console.log("data that will be sent ");
 		const startTime = new Date().getTime();
+		const socket = socketIOClient("https://servercid.run-us-west2.goorm.site");
 		axios
 			.post("https://servercid.run-us-west2.goorm.site/", { result })
 			.then((response) => {
@@ -90,7 +92,17 @@ const FileUpload = () => {
 				const responseTime = endTime - startTime; // Calculate response time
 				console.log(`Response received in ${responseTime} ms`);
 
-				navigate("/directory");
+				useEffect(() => {
+					
+
+					socket.on("file_processed", (data) => {
+						console.log(data.message); // Log the message received from the server
+						navigate("/directories"); // Navigate to the /directories route
+					});
+
+					// Clean up the socket listener when the component unmounts
+					return () => socket.disconnect();
+				}, [navigate]);
 			})
 			.catch((error) => {
 				console.error("Error uploading file:", error);

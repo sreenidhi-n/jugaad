@@ -8,8 +8,22 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
-  { path: '/', element: <Home /> }  ,
-  { path: '/directory', element: <Dirs/> }  
+	{ path: "/", element: <Home /> },
+	{
+		path: "/directory",
+		loader: () => {
+			// Check if the user is authorized to access the /dir route
+			// You can implement your own logic here, such as checking a session token or user role
+			const isAuthorized = true; // Replace with your own logic
+
+			if (isAuthorized) {
+				return null; // Allow access to the /dir route
+			} else {
+				return <Home/>;
+			}
+		},
+		element: <Dirs />,
+	},
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
