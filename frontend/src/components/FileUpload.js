@@ -3,7 +3,7 @@ import axios from "axios";
 import "./FileUpload.css";
 import Image from "./Image";
 import { useNavigate } from "react-router-dom";
-import io from "socket.io-client";
+import socketIOClient from "socket.io-client";
 
 
 const FileUpload = () => {
@@ -83,7 +83,6 @@ const FileUpload = () => {
 	const sendFilesToServer = (event) => {
 		console.log("data that will be sent ");
 		const startTime = new Date().getTime();
-		const socket = socketIOClient("https://servercid.run-us-west2.goorm.site");
 		axios
 			.post("https://servercid.run-us-west2.goorm.site/", { result })
 			.then((response) => {
@@ -93,7 +92,9 @@ const FileUpload = () => {
 				console.log(`Response received in ${responseTime} ms`);
 
 				useEffect(() => {
-					const socket = io("https://servercid.run-us-west2.goorm.site"); // Replace with your Flask server URL
+					const socket = socketIOClient(
+						"https://servercid.run-us-west2.goorm.site"
+					); // Replace with your Flask server URL
 
 					socket.on("connect", () => {
 						console.log("Connected to server");
