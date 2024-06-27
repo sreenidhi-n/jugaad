@@ -85,6 +85,7 @@ const FileUpload = () => {
 			.post("https://servercid.run-us-west2.goorm.site/", { result })
 			.then((response) => {
 				setMessage(response.data.message);
+				console.log(message);
 				navigate("/directory");
 			})
 			.catch((error) => {
