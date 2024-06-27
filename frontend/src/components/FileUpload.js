@@ -3,7 +3,7 @@ import axios from "axios";
 import "./FileUpload.css";
 import Image from "./Image";
 import { useNavigate } from "react-router-dom";
-import socketIOClient from "socket.io-client";
+import io from "socket.io-client";
 
 
 const FileUpload = () => {
@@ -93,16 +93,23 @@ const FileUpload = () => {
 				console.log(`Response received in ${responseTime} ms`);
 
 				useEffect(() => {
-					
+					const socket = io("https://servercid.run-us-west2.goorm.site"); // Replace with your Flask server URL
 
-					socket.on("file_processed", (data) => {
-						console.log(data.message); // Log the message received from the server
-						navigate("/directories"); // Navigate to the /directories route
+					socket.on("connect", () => {
+						console.log("Connected to server");
 					});
 
-					// Clean up the socket listener when the component unmounts
-					return () => socket.disconnect();
-				}, [navigate]);
+					socket.on("file_processed", (data) => {
+						console.log("Received file_processed event:", data);
+						// Process the received data here
+						const { message, files } = data;
+						// Update your component's state or perform other actions
+					});
+
+					return () => {
+						socket.disconnect();
+					};
+				}, []);
 			})
 			.catch((error) => {
 				console.error("Error uploading file:", error);
