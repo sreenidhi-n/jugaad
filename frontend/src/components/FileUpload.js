@@ -105,7 +105,9 @@ const FileUpload = () => {
 	};
 
 	useEffect(() => {
-		const socket = socketIOClient("https://servercid.run-us-west2.goorm.site");
+		const socket = socketIOClient("https://servercid.run-us-west2.goorm.site", {
+			transports: ["websocket"],
+		});
 		socket.on("connect", () => {
 			console.log("Connected to server");
 		});
