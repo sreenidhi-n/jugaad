@@ -1,17 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import "./PicUpload.css";
 import Image from "./Image";
-import { useNavigate } from "react-router-dom";
-import socketIOClient from "socket.io-client";
 
-const FileUpload = () => {
+const ImageUpload = () => {
 	const [files, setFiles] = useState([]);
 	const [message, setMessage] = useState("");
 	const dropRef = useRef(null);
 	const [presence, setPresence] = useState(false);
-	const [result, setResult] = useState([]);
-	const navigate = useNavigate();
+	const [result, setResult] = useState();
 
 	const handleDragOver = (event) => {
 		event.preventDefault();
@@ -42,12 +39,9 @@ const FileUpload = () => {
 	};
 
 	const handleFiles = (fileList) => {
-		const supportedExtensions = Array.from({ length: 100 }, (_, i) => {
-			const num = (i + 1).toString().padStart(2, "0");
-			return `.E${num}`;
-		});
+		const supportedExtensions = [".jpg", ".jpeg", ".tiff", ".png"];
 		const filteredFiles = fileList.filter((file) =>
-			supportedExtensions.some((ext) => file.name.endsWith(ext))
+			supportedExtensions.some((ext) => file.name.toLowerCase().endsWith(ext))
 		);
 		console.log("Filtered files:", filteredFiles); // Log filtered files
 		setFiles(filteredFiles);
@@ -62,7 +56,6 @@ const FileUpload = () => {
 					resolve({
 						name: file.name,
 						content: reader.result.split(",")[1], // Extract base64 content from data URL
-						extension: "E01",
 					});
 				};
 				reader.onerror = reject;
@@ -79,18 +72,12 @@ const FileUpload = () => {
 			.catch((error) => console.error("Error reading files:", error));
 	};
 
-	const sendFilesToServer = () => {
-		console.log("Data that will be sent:", result);
-		const startTime = new Date().getTime();
+	const sendFilesToServer = (event) => {
+		console.log("data that will be sent");
 		axios
 			.post("https://servercid.run-us-west2.goorm.site/", { result })
 			.then((response) => {
 				setMessage(response.data.message);
-				const endTime = new Date().getTime(); // End time
-				const responseTime = endTime - startTime; // Calculate response time
-				
-				console.log(`Response received in ${responseTime} ms`);
-				navigate("/directory");
 			})
 			.catch((error) => {
 				console.error("Error uploading file:", error);
@@ -104,31 +91,6 @@ const FileUpload = () => {
 			});
 	};
 
-	const socket = socketIOClient("https://servercid.run-us-west2.goorm.site", {
-		transports: ["websocket"],
-	});
-
-	socket.on("connect", () => {
-		console.log("Connected to server");
-	});
-
-	socket.on("file_processed", (data) => {
-		console.log("Received file_processed event:", data);
-		const { message, files } = data;
-		// Process received data as needed
-	});
-
-	socket.on("connect_error", (error) => {
-		console.error("WebSocket connection error:", error);
-	});
-
-	socket.on("disconnect", () => {
-		console.log("Disconnected from server");
-		socket.disconnect();
-	});
-
-
-
 	return (
 		<div className="float-child">
 			<div
@@ -140,20 +102,10 @@ const FileUpload = () => {
 			>
 				<div id="contents">
 					<Image />
-					<h5>Drag & drop .E01 - .E100 files here, or click to select files</h5>
-					<input
-						type="file"
-						onChange={handleFileChange}
-						multiple
-						hidden={presence}
-					/>
+					<h5>Drag & drop images files here, or click to select files</h5>
+					<input type="file" onChange={handleFileChange} multiple hidden={presence} />
 					<center id="submit_button">
-						<button
-							type="submit"
-							className="btn btn-primary"
-							disabled={!presence}
-							onClick={sendFilesToServer}
-						>
+						<button type="submit" className="btn btn-primary" disabled={!presence} onClick={sendFilesToServer}>
 							Submit
 						</button>
 					</center>
@@ -170,4 +122,4 @@ const FileUpload = () => {
 	);
 };
 
-export default FileUpload;
+export default ImageUpload;
