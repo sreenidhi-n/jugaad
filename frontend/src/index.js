@@ -1,13 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Home from './pages/Home';
+import DumpUpload from "./pages/DumpUpload";
+import PhotoUpload from "./pages/PhotoUpload";
+import Dirs from "./pages/Dirs"
+import Landing from './pages/Landing';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
-  { path: '/', element: <Home /> }  
+	{ path: "/", element: <Landing /> },
+	{
+		path: "/directory",
+		loader: () => {
+			// Check if the user is authorized to access the /dir route
+			// You can implement your own logic here, such as checking a session token or user role
+			const isAuthorized = true; // Replace with your own logic
+
+			if (isAuthorized) {
+				return null; // Allow access to the /dir route
+			} else {
+				return <DumpUpload />;
+			}
+		},
+		element: <Dirs />,
+	},
+	{ path: "/forensic-image", element: <DumpUpload /> },
+	{ path: "/only-image", element: <PhotoUpload /> },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

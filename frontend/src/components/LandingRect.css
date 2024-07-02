@@ -1,0 +1,33 @@
+/* Base style for the rounded rectangle */
+#rounded-rectangle {
+  width: 600px;
+  height: 100%;
+  min-height: 100px;
+  border-radius: 25px;
+  background: linear-gradient(134deg, #43cea2, #185a9d, #1f5291);
+  background-size: 400% 400%; /* Make the gradient larger to create the moving effect */
+  margin:6%;
+  padding: 3%;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  animation: gradientMove 5s ease infinite;
+  transition: background 1s ease; /* Smooth transition for the background change */
+}
+
+/* Hover state with a different gradient */
+#rounded-rectangle:hover {
+  background:  linear-gradient(134deg, #8643ce, #185a9d);/* Gradient on hover */
+  animation: gradientMove 4s ease infinite;
+}
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
