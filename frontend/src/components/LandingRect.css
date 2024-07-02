@@ -31,3 +31,17 @@
     background-position: 0% 50%;
   }
 }
+
+#rounded-rectangle_btn{
+  width: fit-content;
+  min-height: 10px;
+  border-radius: 10px;
+  background: linear-gradient(134deg, #43cea2, #185a9d, #1f5291);
+  background-size: 400% 400%; /* Make the gradient larger to create the moving effect */
+  padding-inline: 3%;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  animation: gradientMove 5s ease infinite;
+  transition: background 1s ease; 
+}
