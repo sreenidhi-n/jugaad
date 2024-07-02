@@ -1,2 +1,7 @@
 .venv
 frontend
+models
+send_*
+server.py
+test.py
+Images
