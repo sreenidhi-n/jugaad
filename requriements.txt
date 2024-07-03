@@ -1,0 +1,4 @@
+Flask
+ipyparallel
+flask-cors
+flask_socketio
