@@ -4,13 +4,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./Navigation.css"
 
-function Navigation() {
+function Navigation(Params) {
   
   return (
-    <div id = "nav_div">
+    <div id = "nav_div" style={Params.style}>
     <Navbar expand="lg" >
       <Container>
-        <Navbar.Brand href="#home">jugaad.</Navbar.Brand>
+        <Navbar.Brand href="#home">Auto Analyser</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

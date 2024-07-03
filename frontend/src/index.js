@@ -8,6 +8,7 @@ import Landing from './pages/Landing';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Loading from './pages/Loading';
 
 const router = createBrowserRouter([
 	{ path: "/", element: <Landing /> },
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
 	},
 	{ path: "/forensic-image", element: <DumpUpload /> },
 	{ path: "/only-image", element: <PhotoUpload /> },
+	{ path: "/loading", element: <Loading /> },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

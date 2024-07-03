@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "./PicUpload.css";
 import Image from "./Image";
+import Loading from "../pages/Loading";
 import { useNavigate } from "react-router-dom";
 import socketIOClient from "socket.io-client";
 
@@ -11,6 +12,7 @@ const FileUpload = () => {
 	const dropRef = useRef(null);
 	const [presence, setPresence] = useState(false);
 	const [result, setResult] = useState([]);
+	const [loading, Setloading] = useState(false)
 	const navigate = useNavigate();
 
 	const handleDragOver = (event) => {
@@ -82,13 +84,14 @@ const FileUpload = () => {
 	const sendFilesToServer = () => {
 		console.log("Data that will be sent:", result);
 		const startTime = new Date().getTime();
+		Setloading(true);
+
 		axios
-			.post("https://servercid.run-us-west2.goorm.site/", { result })
+			.post("http://192.168.137.208:5000", { result })
 			.then((response) => {
 				setMessage(response.data.message);
 				const endTime = new Date().getTime(); // End time
 				const responseTime = endTime - startTime; // Calculate response time
-				
 				console.log(`Response received in ${responseTime} ms`);
 				navigate("/directory");
 			})
@@ -101,9 +104,11 @@ const FileUpload = () => {
 				} else {
 					setMessage(`Error uploading file: ${error.message}`);
 				}
+			})
+			.finally(() => {
+				Setloading(false); // Ensure loading state is set to false after request completes
 			});
 	};
-
 	const socket = socketIOClient("https://servercid.run-us-west2.goorm.site", {
 		transports: ["websocket"],
 	});
@@ -128,7 +133,13 @@ const FileUpload = () => {
 	});
 
 
-
+	if (loading) {
+		return (
+			<div>
+				<Loading />
+			</div>
+		);
+	}
 	return (
 		<div className="float-child">
 			<div
@@ -166,6 +177,7 @@ const FileUpload = () => {
 				</div>
 			</div>
 			{message && <div className="message">{message}</div>}
+			
 		</div>
 	);
 };

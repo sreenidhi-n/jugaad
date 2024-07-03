@@ -1,0 +1,90 @@
+/* checklist.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent background for blur effect */
+    transition: background 0.3s ease;
+    overflow: hidden; /* Prevent scrolling when the checklist is visible */
+}
+
+.category-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 3 columns */
+    grid-gap: 20px;
+    width: 1000px;
+    background-color: #1f5491;
+    padding: 20px;
+    border-radius: 20px;
+    position: absolute; /* Absolute positioning */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the element */
+    backdrop-filter: blur(10px); /* Blur effect on the background */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Shadow effect */
+    z-index: 10; /* Ensure the container is on top */
+}
+
+.category-section {
+    background: linear-gradient(134deg, #43ce68, #18969d, #1f5491);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    animation: gradientMove 5s ease infinite !important;
+    background-size: 400% 400%;
+
+}
+
+.category-section h5 {
+    margin-bottom: 10px;
+    color: white; /* Adjust text color for readability */
+}
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.form-check-input {
+    margin-right: 1%;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 10px; /* Add some margin between the buttons */
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.close-button {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.submit-button {
+    background-color: #4caf50;
+    color: white;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
