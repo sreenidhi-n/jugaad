@@ -4,6 +4,7 @@ import './index.css';
 import DumpUpload from "./pages/DumpUpload";
 import PhotoUpload from "./pages/PhotoUpload";
 import Dirs from "./pages/Dirs"
+import FolderView from './components/FolderView';
 import Landing from './pages/Landing';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
 	{ path: "/forensic-image", element: <DumpUpload /> },
 	{ path: "/only-image", element: <PhotoUpload /> },
 	{ path: "/loading", element: <Loading /> },
+	{ path: '/folder/:id', element: <FolderView /> }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

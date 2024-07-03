@@ -2,6 +2,7 @@ import {React,useState} from 'react'
 import Navbar from "../components/Navigation"
 import Button from '../components/Button';
 import  Checklist from '../components/Checkslit';
+import FolderList from '../components/FolderList'
 function Dirs() {
   const [hidden, setHidden] = useState(true)
   const [blur, setBlur] = useState(false)
@@ -18,7 +19,7 @@ function Dirs() {
 		<div>
 			<dir style={blur ? { filter: "blur(8px)" } : {}}>
 				<Navbar  />
-				<h3>This is Dirs page</h3>
+				<FolderList />
 				<Button
 					val="Analyze Using AI"
 					onClick={check_list}

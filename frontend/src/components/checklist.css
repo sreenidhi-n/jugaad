@@ -5,7 +5,7 @@ body {
     padding: 0;
     background: rgba(0, 0, 0, 0.8); /* Semi-transparent background for blur effect */
     transition: background 0.3s ease;
-    overflow: hidden; /* Prevent scrolling when the checklist is visible */
+    
 }
 
 .category-container {
