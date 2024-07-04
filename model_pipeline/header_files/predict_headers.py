@@ -2,3 +2,4 @@ from predict_models.predict_cigarettes import Predict_Cigarettes
 from predict_models.predict_drugs import Predict_Drugs
 from predict_models.predict_qr import Predict_QR
 from predict_models.predict_objects import Predict_Objects
+from predict_models.predict_nudity import Predict_Nudity

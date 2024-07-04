@@ -6,7 +6,7 @@ import mediapipe as mp
 
 class Predict_Objects:
     __image = None
-    __desired_classes = ['backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 
+    __desired_classes = ['umbrella', 'handbag', 'suitcase', 'frisbee', 
     'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 
     'skateboard', 'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 
     'fork', 'knife', 'spoon', 'bowl', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 

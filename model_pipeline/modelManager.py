@@ -5,26 +5,31 @@ class ModelManager:
     def __init__(self):
         self.__models = {}
 
-    def activate_model(self, model_name, model_path, model_activate):
-        if model_name == 'Cigarettes'and model_activate:
+    def activate_model(self, model_name, model_path):
+        if model_name == 'Cigarettes':
             model_loader = Cigarettes(model_path)
             loaded_model = model_loader.load_model()
             self.append_model_info(model_name, loaded_model)
 
-        if model_name == 'Drugs'and model_activate:
+        if model_name == 'Drugs':
+            print('drugs')
             model_loader = Drugs(model_path)
             loaded_model= model_loader.load_model()
             self.append_model_info(model_name, loaded_model)
 
-        if model_name == 'QR_BAR'and model_activate:
+        if model_name == 'QR_BAR':
             model_loader = QR_BAR(model_path)
             loaded_model= model_loader.load_model()
             self.append_model_info(model_name, loaded_model)
 
-        if model_name == 'Hand_Held' and model_activate:
+        if model_name == 'Hand_Held':
             model_loader = Objects(model_path)
             loaded_model= model_loader.load_model()
             self.append_model_info(model_name, loaded_model)
+        
+        if model_name == 'Nudity':
+            print('nudes')
+            self.append_model_info(model_name, ' ')
 
 
     def append_model_info(self, model_name, loaded_model):
@@ -40,8 +45,8 @@ class ModelManager:
             model_name = model.get('model_name')
             model_path = model.get('model_path')
             model_activate = model.get('activate')
-            if model_name and model_path:
-                self.activate_model(model_name, model_path, model_activate)
+            if model_activate:
+                self.activate_model(model_name, model_path)
         active_models = self.get_active_models()
         return active_models
 
