@@ -3,6 +3,7 @@ import Navbar from "../components/Navigation"
 import Button from '../components/Button';
 import  Checklist from '../components/Checkslit';
 import FolderList from '../components/FolderList'
+import Sidepanel from '../components/Sidepanel';
 function Dirs() {
   const [hidden, setHidden] = useState(true)
   const [blur, setBlur] = useState(false)
@@ -26,6 +27,9 @@ function Dirs() {
 				/>
 			</dir>
 			{!hidden && <Checklist reset={call_by_check_to_reset} />}
+			<Sidepanel>
+				magu
+			</Sidepanel>
 		</div>
 	);
 }
