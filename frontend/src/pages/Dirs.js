@@ -4,9 +4,12 @@ import Button from '../components/Button';
 import  Checklist from '../components/Checkslit';
 import FolderList from '../components/FolderList'
 import Sidepanel from '../components/Sidepanel';
+import io from "socket.io-client"
+import axios from 'axios';
 function Dirs() {
   const [hidden, setHidden] = useState(true)
-  const [blur, setBlur] = useState(false)
+	const [blur, setBlur] = useState(false)
+	const [display, setDisplay] = useState([])
   const check_list =()=>{
     setHidden(false)
     setBlur(true)
@@ -15,7 +18,28 @@ function Dirs() {
     setHidden(true)
     setBlur(false)
   }
-
+	const handleSocketEvent = () => {
+		const socket = io("http://localhost:5000")
+		socket.on("connect", () => {
+			console.log("connected baby");
+		})
+		axios.get("http://127.0.0.1:5000")
+			.then((res) => {
+				console.log(res);
+				socket.emit("Ready")
+				socket.on("image_name", (data) => {
+					console.log("image name is ready " + data.url);
+					setDisplay((prev)=>[...prev,data.url])
+				});
+				socket.on("done", () => {
+					socket.disconnect()
+				})
+			})
+			.catch((err) => {
+			console.log(err);
+		})
+		
+  }
   return (
 		<div>
 			<dir style={blur ? { filter: "blur(8px)" } : {}}>
@@ -29,7 +53,13 @@ function Dirs() {
 			{!hidden && <Checklist reset={call_by_check_to_reset} />}
 			<Sidepanel>
 				magu
-			</Sidepanel>
+		  </Sidepanel>
+		  <button onClick={handleSocketEvent}>Click me </button>
+		  <div>
+			  {display.map((data, index)=>(
+			  <img src={data} alt='image' style={{width:10+"%"}}/>
+			  ))}
+		  </div>
 		</div>
 	);
 }
