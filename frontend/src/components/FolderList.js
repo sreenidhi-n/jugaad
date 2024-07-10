@@ -1,26 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useContext} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Folder.css';
+import { unclassified_images } from "../pages/Landing";
 
 function FolderList() {
-  const [folders, setFolders] = useState([]);
+  const [folders, setFolders] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const [sockdata, setscokdata] = useContext(unclassified_images)
+  console.log(folders);
   useEffect(() => {
-    const fetchFolders = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/folders');
-        setFolders(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching folders:', error);
-        setLoading(false);
-      }
-    };
+    setFolders(sockdata)
+    setLoading(false)
+  },[sockdata])
+  // useEffect(() => {
+  //   const fetchFolders = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3001/folders');
+  //       setFolders(response.data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error('Error fetching folders:', error);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchFolders();
-  }, []);
+  //   fetchFolders();
+  // }, []);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -28,11 +34,12 @@ function FolderList() {
 
   return (
     <div className="folder-list">
-      {folders.map((folder, index) => (
-        <Link to={`/folder/${index}`} key={index} className="folder-item" state={{ folder }}>
+      {Object.keys(folders).map((folder, index) => (
+        <Link to={`folder/${index}`} key={index} className="folder-item" state={{data:folders[folder]}}>
           <div className="folder-thumbnail">
-            {folder.File_Array.length > 0 && (
-              <img src={`data:image/jpeg;base64,${folder.File_Array[0]}`} alt={folder.Folder_name} />
+            {(
+              // <img src={`data:image/jpeg;base64,${folders[folder]}`} alt={folder} />
+              <img src={ folders[folder][0]} />
             )}
           </div>
           <div className="folder-name">{folder.Folder_name}</div>
