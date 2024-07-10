@@ -1,0 +1,12 @@
+.sticky-right {
+    position: fixed;
+    right: 0;
+    top: 55%; /* Adjust as needed */
+    transform: translateY(-50%);
+    background-color: #82c17c; /* Background color */
+    padding: 10px;
+    border: 1px solid #ccc; /* Optional: Add border */
+    border-radius: 20px 0px 0px 20px ;
+    height: 80%;
+    width: 18%;
+}

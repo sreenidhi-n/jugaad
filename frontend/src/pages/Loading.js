@@ -1,18 +1,20 @@
 // Loading.js
-import React from "react";
+import {React,createContext,useState} from "react";
 
 function Loading() {
+	
 	return (
-		<div
-			style={{
-				height: "100vh",
-				display: "flex",
-				justifyContent: "center",
-				alignItems: "center",
-			}}
-		>
-			<p>Loading...</p>
-		</div>
+		
+			<div
+				style={{
+					height: "100vh",
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+				}}
+			>
+				<p>Loading...</p>
+			</div>
 	);
 }
 

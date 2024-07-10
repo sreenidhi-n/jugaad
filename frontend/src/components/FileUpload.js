@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useContext } from "react";
 import axios from "axios";
 import "./PicUpload.css";
 import Image from "./Image";
 import Loading from "../pages/Loading";
-import { useNavigate } from "react-router-dom";
-import socketIOClient from "socket.io-client";
+import { Link, useNavigate } from "react-router-dom";
+import { socketIOClient, io } from "socket.io-client";
+import { unclassified_images } from "../pages/Landing";
 
 const FileUpload = () => {
 	const [files, setFiles] = useState([]);
@@ -13,6 +14,8 @@ const FileUpload = () => {
 	const [presence, setPresence] = useState(false);
 	const [result, setResult] = useState([]);
 	const [loading, Setloading] = useState(false)
+	// const [unclimg, setunclimg] = 
+	const [sockData, setsockData] = useContext(unclassified_images);
 	const navigate = useNavigate();
 
 	const handleDragOver = (event) => {
@@ -93,7 +96,7 @@ const FileUpload = () => {
 				const endTime = new Date().getTime(); // End time
 				const responseTime = endTime - startTime; // Calculate response time
 				console.log(`Response received in ${responseTime} ms`);
-				navigate("/directory");
+				<Link to={"/directory"} state={{}}/>;
 			})
 			.catch((error) => {
 				console.error("Error uploading file:", error);
@@ -109,28 +112,7 @@ const FileUpload = () => {
 				Setloading(false); // Ensure loading state is set to false after request completes
 			});
 	};
-	const socket = socketIOClient("https://servercid.run-us-west2.goorm.site", {
-		transports: ["websocket"],
-	});
-
-	socket.on("connect", () => {
-		console.log("Connected to server");
-	});
-
-	socket.on("file_processed", (data) => {
-		console.log("Received file_processed event:", data);
-		const { message, files } = data;
-		// Process received data as needed
-	});
-
-	socket.on("connect_error", (error) => {
-		console.error("WebSocket connection error:", error);
-	});
-
-	socket.on("disconnect", () => {
-		console.log("Disconnected from server");
-		socket.disconnect();
-	});
+	
 
 
 	if (loading) {
@@ -139,6 +121,33 @@ const FileUpload = () => {
 				<Loading />
 			</div>
 		);
+	}
+	const check = () => {
+		const sock = io("http://127.0.0.1:5000");
+		sock.on("connect", () => { console.log("connected") });
+		sock.emit("Ready")
+		sock.on("image_name", (data) => { 
+			setsockData((prevData) => {
+				if (data.folder in prevData) {
+					return {
+						...prevData,
+						[data.folder]: [...prevData[data.folder], data.content],
+					};
+				} else {
+					return {
+						...prevData,
+						[data.folder]: [data.content],
+					};
+				}
+			});
+			}
+		);
+		sock.on("Done", () => {
+			console.log("Done and disconnecting");
+			console.log(sockData);
+			sock.disconnect();
+		});
+		navigate("/directory")
 	}
 	return (
 		<div className="float-child">
@@ -177,7 +186,7 @@ const FileUpload = () => {
 				</div>
 			</div>
 			{message && <div className="message">{message}</div>}
-			
+			<button onClick={check}>Click me</button>
 		</div>
 	);
 };
